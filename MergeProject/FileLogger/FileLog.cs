@@ -13,6 +13,7 @@ namespace FileLogger
         public void Log(string message)
         {
             File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Log.txt"), message);
+            // Imlemented logic
         }
     }
 }
