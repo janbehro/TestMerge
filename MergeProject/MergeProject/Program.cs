@@ -11,6 +11,7 @@ namespace MergeProject
     {
         static void Main(string[] args)
         {
+            new ConsoleLog().Log("Hello world");
         }
     }
 
