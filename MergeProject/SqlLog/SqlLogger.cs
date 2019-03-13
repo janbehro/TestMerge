@@ -12,6 +12,7 @@ namespace SqlLog
         public void Log(string message)
         {
             System.Diagnostics.Trace.WriteLine(message);
+            //TODO
         }
     }
 }
