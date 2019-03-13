@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeProject", "MergeProject\MergeProject.csproj", "{3FECCD44-5614-4B93-BE24-AC75371F4C81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{0049AE32-A7FB-4353-9001-6A14B4937066}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileLogger", "FileLogger\FileLogger.csproj", "{092889F0-D959-48DC-8B58-3A70910871CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3FECCD44-5614-4B93-BE24-AC75371F4C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FECCD44-5614-4B93-BE24-AC75371F4C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FECCD44-5614-4B93-BE24-AC75371F4C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0049AE32-A7FB-4353-9001-6A14B4937066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0049AE32-A7FB-4353-9001-6A14B4937066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0049AE32-A7FB-4353-9001-6A14B4937066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0049AE32-A7FB-4353-9001-6A14B4937066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092889F0-D959-48DC-8B58-3A70910871CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092889F0-D959-48DC-8B58-3A70910871CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092889F0-D959-48DC-8B58-3A70910871CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092889F0-D959-48DC-8B58-3A70910871CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

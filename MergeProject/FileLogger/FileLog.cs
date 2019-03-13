@@ -5,20 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MergeProject
+namespace FileLogger
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-        }
-    }
-
-    public class ConsoleLog : ILogger
+    public class FileLog : ILogger
     {
         public void Log(string message)
         {
-            Console.WriteLine(message);
+            throw new NotImplementedException();
         }
     }
 }
