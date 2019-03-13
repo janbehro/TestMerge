@@ -13,5 +13,10 @@ namespace SqlLog
         {
             System.Diagnostics.Trace.WriteLine(message);
         }
+
+        public void Log(object parameter, string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
