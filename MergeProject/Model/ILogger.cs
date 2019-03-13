@@ -8,6 +8,6 @@ namespace Model
 {
     public interface ILogger
     {
-        void Log(string message);
+        void Log(object parameter, string message);
     }
 }
