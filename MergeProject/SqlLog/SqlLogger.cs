@@ -11,7 +11,7 @@ namespace SqlLog
     {
         public void Log(string message)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Trace.WriteLine(message);
         }
     }
 }
