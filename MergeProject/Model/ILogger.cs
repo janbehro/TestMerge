@@ -1,92 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Model
 {
+    /// <summary>
+    /// ICHDUStorage interface
+    /// </summary>
     public interface ICHDUStorage
     {
         /// <summary>
-        /// Adds receipt data message to the storage
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Date">Date</param>
-        /// <param name="ReceiptNumber">Receipt number</param>
-        /// <param name="DataMessage">DataMessage XML</param>
-        //Task AddReceiptDataMessageRequest(DocumentType JSON, string xml)
-        Task AddReceiptDataMessageRequest(ChduMessageHeader header, string DataMessage);
-
-        /// <summary>
-        /// Returns the first data message for the receipt
-        /// </summary>
-        /// <param name="CashRegisterCode"></param>
-        /// <param name="Date"></param>
-        /// <param name="ReceiptNumber"></param>
-        /// <returns></returns>
-        Task<string> GetReceiptDataMessage(string CashRegisterCode, DateTime Date, int ReceiptNumber);
-
-        /// <summary>
-        /// Adds location message request to the storage
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Date">Date</param>
-        /// <param name="DataMessage">DataMessage XML</param>
-        Task AddLocationDataMessageRequest(ChduMessageHeader header, string DataMessage);
-
-        /// <summary>
-        /// Adds location message response to the storage
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Date">Date</param>
-        /// <param name="DataMessage">DataMessage XML</param>
-        Task AddLocationDataMessageResponse(ChduMessageHeader header, string DataMessage);
-
-        /// <summary>
-        /// Adds text printout to the storage
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Date">Date</param>
-        /// <param name="Printout"></param>
-        Task AddTextPrintout(ChduMessageHeader header, string Printout);
-
-        /// <summary>
-        /// Adds text printout to the storage
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Date">Date</param>
-        /// <param name="Printout"></param>
-        Task AddReceiptPrintout(ChduMessageHeader header, string Printout);
-
-        /// <summary>
         /// Add authentication and identity info
         /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Authentication">Authentication data</param>
-        /// <param name="Identification">Identification information</param>
-        /// <param name="Id">Id</param>
-        /// <param name="UploadDate">UpladDate</param>
-        Task AddAuthIdSet(ChduMessageHeader header, string Authentication, string Identification);
-
-        /// <summary>
-        /// Returns authentication set by parameters
-        /// </summary>
-        /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Authentication">Authentication</param>
-        /// <param name="Identification">Identification</param>
-        /// <param name="Id">Id</param>
-        /// <returns></returns>
-        Task<object> GetAuthIdSet(string CashRegisterCode, int Id);
+        /// <param name="cashRegisterCode"></param>
+        /// <param name="set"></param>
+        /// <returns>new AuthIdSet Id</returns>
+        Task<int> AddAuthIdSet(string cashRegisterCode, object set);
 
         /// <summary>
         /// Returns all authentication set for parameters
         /// </summary>
         /// <param name="CashRegisterCode">CashRegisterCode</param>
-        /// <param name="Authentication">Authentication</param>
-        /// <param name="Identification">Identification</param>
         /// <returns></returns>
         Task<IEnumerable<object>> GetAuthIdSets(string CashRegisterCode);
+
+
+        /// <summary>
+        /// Adds receipt data message to the storage
+        /// </summary>
+        /// <param name="header">Message header</param>
+        /// <param name="DataMessage">Serialized message data</param>
+        Task AddReceiptDataMessageRequest(string cashRegisterCode, DateTime createDate, int receiptNumber, string DataMessage);
+
+        /// <summary>
+        /// Adds receipt data message to the storage
+        /// </summary>
+        /// <param name="header">Message header</param>
+        /// <param name="DataMessage">Serialized message data</param>
+        Task AddReceiptDataMessageResponse(string cashRegisterCode, DateTime createDate, int receiptNumber, string DataMessage);
+
+        /// <summary>
+        /// Returns the first data message for the receipt (used for copy printing)
+        /// </summary>
+        /// <param name="header">Message header</param>
+        Task<string> GetReceiptDataMessage(string cashRegisterCode, DateTime createDate, int receiptNumber);
+
+        /// <summary>
+        /// Returns all data messages related to parameters
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <param name="createDate"></param>
+        /// <param name="receiptNumber"></param>
+        /// <returns></returns>
+        Task<IEnumerable<object>> GetReceiptDataMessages(string cashRegisterCode, DateTime createDate, int receiptNumber);
+        /// <summary>
+        /// Returns all unsend messages
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetUnsendReceiptMessages(string cashRegisterCode);
+
+        /// <summary>
+        /// Adds location message request to the storage
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <param name="date"></param>
+        /// <param name="locationId">If 0, generate Id</param>
+        /// <param name="DataMessage"></param>
+        /// <returns></returns>
+        Task<int> AddLocationDataMessageRequest(string cashRegisterCode, DateTime currentDate, int locationId, string DataMessage);
+
+        /// <summary>
+        /// Adds location message response to the storage
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <param name="currentDate"></param>
+        /// <param name="locationId"></param>
+        /// <param name="DataMessage">DataMessage XML</param>
+        Task AddLocationDataMessageResponse(string cashRegisterCode, DateTime currentDate, int locationId, string DataMessage);
+
+        /// <summary>
+        /// Vráti všetky neodoslané správy 
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <returns></returns>
+        IEnumerable<string> GetUnsendLocationMessages(string cashRegisterCode);
+
+        /// <summary>
+        /// Adds text printout to the storage
+        /// </summary>
+        /// <param name="Printout"></param>
+        /// <returns></returns>
+        Task AddTextPrintout(string Printout);
+
+        /// <summary>
+        /// Adds text printout to the storage and pair printout to receipt
+        /// </summary>
+        /// <param name="cashRegisterCode"></param>
+        /// <param name="createDate"></param>
+        /// <param name="receiptNumber"></param>
+        /// <param name="Printout"></param>
+        /// <returns></returns>
+        Task AddReceiptPrintout(string cashRegisterCode, DateTime createDate, int receiptNumber, string Printout);
 
         /// <summary>
         /// Returns capacity information
@@ -109,8 +127,9 @@ namespace Model
         /// <summary>
         /// Gets CHDU's binary image
         /// </summary>
+        /// <param name="stream"></param>
         /// <returns></returns>
-        Task<byte[]> GetBinaryImage();
+        Task GetBinaryImage(Stream stream);
 
         /// <summary>
         /// Returns all send receipt messages
@@ -119,16 +138,7 @@ namespace Model
         /// <param name="From">From</param>
         /// <param name="To">To</param>
         /// <returns></returns>
-        Task<byte[][]> GetSentReceiptMessages(string CashRegisterCode, DateTime From, DateTime To);
-
-        /// <summary>
-        /// Returns unsent receipt messages
-        /// </summary>
-        /// <param name="CashRegisterCode">ChasRegisterCode</param>
-        /// <param name="From">From</param>
-        /// <param name="To">To</param>
-        /// <returns></returns>
-        Task<byte[][]> GetUnsentReceiptMessages(string CashRegisterCode, DateTime From, DateTime To);
+        Task<IEnumerable<string>> GetSentReceiptMessages(string CashRegisterCode, DateTime From, DateTime To, Stream stream);
 
         /// <summary>
         /// Returns all text printouts
@@ -137,7 +147,7 @@ namespace Model
         /// <param name="From">From</param>
         /// <param name="To">To</param>
         /// <returns></returns>
-        Task<byte[][]> GetTextPrintout(string CashRegisterCode, DateTime From, DateTime To);
+        Task<IEnumerable<string>> GetTextPrintout(string CashRegisterCode, DateTime From, DateTime To);
 
         /// <summary>
         /// Get all location messages
@@ -146,7 +156,7 @@ namespace Model
         /// <param name="From"></param>
         /// <param name="To"></param>
         /// <returns></returns>
-        Task<byte[][]> GetLocationMessages(string CashRegisterCode, DateTime From, DateTime To);
+        Task<IEnumerable<string>> GetLocationMessages(string CashRegisterCode, DateTime From, DateTime To, Stream stream);
     }
 
     public class StorageCapacity
@@ -154,7 +164,7 @@ namespace Model
         public long Capacity { get; set; }
         public long AvailableCapacity { get; set; }
     }
-
+    [Obsolete]
     public class ChduMessageHeader
     {
         public string CashRegisterCode { get; set; }
