@@ -11,9 +11,6 @@ namespace MergeProject
     {
         static void Main(string[] args)
         {
-            //Auth changes here
-            //Config chagnes 2
-            //Change 3
             new ConsoleLog().AddAuthIdSet(new ChduMessageHeader(), "", "");
         }
     }
